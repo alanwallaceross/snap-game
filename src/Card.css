@@ -1,0 +1,16 @@
+.card {
+  width: 260px;
+  height: 340px;
+  border: solid 1px;
+}
+
+img[src=""] {
+  display: none;
+}
+
+img {
+  margin: auto;
+  margin-top: 10px;
+  min-width: 208px;
+  min-height: 289px;
+}
