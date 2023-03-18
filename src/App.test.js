@@ -48,6 +48,7 @@ describe("App.js", () => {
 
     fireEvent.click(button);
     let card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
+    expect(card1).toBeVisible();
 
     server.use(
       rest.get(
@@ -80,8 +81,9 @@ describe("App.js", () => {
     fireEvent.click(button);
 
     let card2 = await screen.findByRole("img", { name: "9 of DIAMONDS" });
+
     suitSnap = await screen.findByText(/suit snap/i);
-    expect(card1).toBeVisible();
+
     expect(card2).toBeVisible();
     expect(suitSnap).toBeVisible();
   });
@@ -120,6 +122,7 @@ describe("App.js", () => {
 
     fireEvent.click(button);
     let card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
+    expect(card1).toBeVisible();
 
     server.use(
       rest.get(
@@ -153,9 +156,118 @@ describe("App.js", () => {
 
     let card2 = await screen.findByRole("img", { name: "4 of CLUBS" });
     valueSnap = await screen.findByText(/value snap/i);
-    expect(card1).toBeVisible();
     expect(card2).toBeVisible();
     expect(valueSnap).toBeVisible();
+  });
+
+  test("allows game to be reset", async () => {
+    render(<App />);
+
+    let button = await screen.findByText(/draw card/i);
+
+    server.use(
+      rest.get(
+        "https://deckofcardsapi.com/api/deck/bxz1qselhorw/draw/:count",
+        (req, res, ctx) => {
+          return res(
+            ctx.json({
+              success: true,
+              deck_id: "bxz1qselhorw",
+              cards: [
+                {
+                  code: "4D",
+                  image: "https://deckofcardsapi.com/static/img/4D.png",
+                  images: {
+                    svg: "https://deckofcardsapi.com/static/img/4D.svg",
+                    png: "https://deckofcardsapi.com/static/img/4D.png",
+                  },
+                  value: "4",
+                  suit: "DIAMONDS",
+                },
+              ],
+              remaining: 1,
+            })
+          );
+        }
+      )
+    );
+
+    fireEvent.click(button);
+    let card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
+    expect(card1).toBeVisible();
+
+    server.use(
+      rest.get(
+        "https://deckofcardsapi.com/api/deck/bxz1qselhorw/draw",
+        (req, res, ctx) => {
+          return res(
+            ctx.json({
+              success: true,
+              deck_id: "bxz1qselhorw",
+              cards: [
+                {
+                  code: "4C",
+                  image: "https://deckofcardsapi.com/static/img/4C.png",
+                  images: {
+                    svg: "https://deckofcardsapi.com/static/img/4C.svg",
+                    png: "https://deckofcardsapi.com/static/img/4C.png",
+                  },
+                  value: "4",
+                  suit: "CLUBS",
+                },
+              ],
+              remaining: 0,
+            })
+          );
+        }
+      )
+    );
+
+    fireEvent.click(button);
+
+    let card2 = await screen.findByRole("img", { name: "4 of CLUBS" });
+    expect(card2).toBeVisible();
+
+    let resetButton = screen.getByText(/reset/i);
+    fireEvent.click(resetButton);
+    card1 = screen.queryByRole("img", { name: "4 of DIAMONDS" });
+    card2 = screen.queryByRole("img", { name: "4 of CLUBS" });
+    expect(card1).toBeNull();
+    expect(card2).toBeNull();
+
+    server.use(
+      rest.get(
+        "https://deckofcardsapi.com/api/deck/bxz1qselhorw/draw",
+        (req, res, ctx) => {
+          return res(
+            ctx.json({
+              success: true,
+              deck_id: "bxz1qselhorw",
+              cards: [
+                {
+                  code: "4D",
+                  image: "https://deckofcardsapi.com/static/img/4D.png",
+                  images: {
+                    svg: "https://deckofcardsapi.com/static/img/4D.svg",
+                    png: "https://deckofcardsapi.com/static/img/4D.png",
+                  },
+                  value: "4",
+                  suit: "DIAMONDS",
+                },
+              ],
+              remaining: 51,
+            })
+          );
+        }
+      )
+    );
+
+    let drawCardButton2 = await screen.findByText(/draw card/i);
+    expect(drawCardButton2).toBeVisible();
+    fireEvent.click(drawCardButton2);
+
+    card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
+    expect(card1).toBeVisible();
   });
 });
 

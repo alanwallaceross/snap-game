@@ -3,17 +3,21 @@ import CardsContainer from "./CardsContainer";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [deck, setDeck] = useState();
+  const [deckId, setDeckId] = useState();
   const [cards, setCards] = useState([]);
-  const [deckStatus, setDeckStatus] = useState("loading");
+  const [deckStatus, setDeckStatus] = useState("idle");
+  const [cardStatus, setCardStatus] = useState("idle");
+  const [isReset, setIsReset] = useState(true);
 
   const isValueSnap =
     cards[1]?.cards[0]?.value &&
-    cards[1]?.cards[0]?.value === cards[0]?.cards[0].value;
+    cards[1]?.cards[0]?.value === cards[0]?.cards[0]?.value;
 
   const isSuitSnap =
     cards[1]?.cards[0]?.suit &&
-    cards[1]?.cards[0]?.suit === cards[0]?.cards[0].suit;
+    cards[1]?.cards[0]?.suit === cards[0]?.cards[0]?.suit;
+
+  const cardsRemaining = cards[0]?.remaining ?? 52;
 
   useEffect(() => {
     async function fetchDeck() {
@@ -23,15 +27,36 @@ function App() {
           "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
         );
         const json = await deckResponse.json();
-        setDeck(json);
+        setDeckId(json.deck_id);
         setDeckStatus("completed");
       } catch (error) {
         setDeckStatus("error");
         console.error("Error fetching data:", error);
       }
     }
-    fetchDeck();
-  }, []);
+    if (isReset) {
+      fetchDeck();
+      setIsReset(false);
+    }
+  }, [isReset]);
+
+  async function cardDrawHandler() {
+    try {
+      setCardStatus("loading");
+      let cardData = await fetchCard(deckId);
+      setCards([cardData, ...cards]);
+      setCardStatus("completed");
+    } catch (error) {
+      setCardStatus("error");
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  function reset() {
+    setDeckId();
+    setCards([]);
+    setIsReset(true);
+  }
 
   return (
     <div className="App">
@@ -42,31 +67,31 @@ function App() {
         <div>Loading</div>
       ) : (
         <div>
+          <div>
+            <span>{`Cards remaining: ${cardsRemaining}`}</span>
+          </div>
           <div className="snap-info">
             {isValueSnap ? <h2>VALUE SNAP</h2> : null}
             {isSuitSnap ? <h2>SUIT SNAP</h2> : null}
           </div>
           <div className="max-width-wrapper">
-            <CardsContainer cards={cards} />
+            <CardsContainer status={cardStatus} cards={cards} />
           </div>
-          <button
-            onClick={() => {
-              fetchCard(deck).then((cardData) =>
-                setCards([cardData, ...cards])
-              );
-            }}
-          >
-            Draw card
-          </button>
+
+          {cardsRemaining ? (
+            <button onClick={cardDrawHandler}>Draw card</button>
+          ) : (
+            <button onClick={reset}>Reset</button>
+          )}
         </div>
       )}
     </div>
   );
 }
 
-async function fetchCard(deck) {
+async function fetchCard(deckId) {
   let cardResponse = await fetch(
-    `https://deckofcardsapi.com/api/deck/${deck.deck_id}/draw/?count=1`
+    `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
   );
 
   const json = cardResponse.json();
