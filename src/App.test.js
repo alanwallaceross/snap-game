@@ -229,6 +229,8 @@ describe("App.js", () => {
     expect(card2).toBeVisible();
 
     let resetButton = screen.getByText(/reset/i);
+    // I would also test that VALUE MATCHES: 1 is visible however
+    // refs don't seem to be working nicely inside the tests as the value remains at 0
     fireEvent.click(resetButton);
     card1 = screen.queryByRole("img", { name: "4 of DIAMONDS" });
     card2 = screen.queryByRole("img", { name: "4 of CLUBS" });
