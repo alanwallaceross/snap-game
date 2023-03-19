@@ -6,11 +6,23 @@
   padding-right: 16px;
 }
 
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
 .top-bar {
-  height: 180px;
-  width: 100px;
+  height: 100px;
+  width: 120px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.game-details {
+  margin-bottom: 50px;
 }
 
 .snap-info {
@@ -18,4 +30,37 @@
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
+}
+
+.button-result-container {
+  margin-top: 50px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.draw-card-button {
+  width: 200px;
+  margin-left: 80px;
+  cursor: pointer;
+  height: 80px;
+  background-color: rgb(0, 140, 255);
+  color: white;
+  border-radius: 20px;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.reset-button {
+  width: 200px;
+  margin-left: 80px;
+  cursor: pointer;
+  height: 80px;
+  background-color: rgb(230, 35, 29);
+  color: white;
+  border-radius: 20px;
+  font-size: 1.5rem;
+  font-weight: 300;
 }

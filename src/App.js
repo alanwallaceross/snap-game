@@ -1,6 +1,6 @@
 import "./App.css";
 import CardsContainer from "./CardsContainer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { calculateSnapOdds } from "./calculateSnapOdds";
 
 function App() {
@@ -9,6 +9,8 @@ function App() {
   const [deckStatus, setDeckStatus] = useState("idle");
   const [cardStatus, setCardStatus] = useState("idle");
   const [isReset, setIsReset] = useState(true);
+  const valueSnapCount = useRef(0);
+  const suitSnapCount = useRef(0);
 
   const isValueSnap = cards[1]?.value && cards[1]?.value === cards[0]?.value;
 
@@ -38,6 +40,18 @@ function App() {
       setIsReset(false);
     }
   }, [isReset]);
+
+  useEffect(() => {
+    if (isValueSnap) {
+      valueSnapCount.current += 1;
+    }
+  }, [isValueSnap]);
+
+  useEffect(() => {
+    if (isSuitSnap) {
+      suitSnapCount.current += 1;
+    }
+  }, [isSuitSnap]);
 
   async function cardDrawHandler() {
     try {
@@ -69,25 +83,36 @@ function App() {
         <div>Loading</div>
       ) : (
         <div>
-          <div>
-            <p>{`Cards remaining: ${cardsRemaining}`}</p>
-            <p>{`${(snapOdds * 100).toFixed(
-              1
-            )}% chance of a SNAP in the next draw`}</p>
-          </div>
-          <div className="snap-info">
-            {isValueSnap ? <h2>VALUE SNAP</h2> : null}
-            {isSuitSnap ? <h2>SUIT SNAP</h2> : null}
-          </div>
           <div className="max-width-wrapper">
-            <CardsContainer status={cardStatus} cards={cards} />
-          </div>
+            <div className="game-details">
+              <p>{`Cards remaining: ${cardsRemaining}`}</p>
+              <p>{`${(snapOdds * 100).toFixed(
+                1
+              )}% chance of a SNAP in the next draw`}</p>
+            </div>
+            <div className="snap-info">
+              {isValueSnap ? <h2>VALUE SNAP</h2> : null}
+              {isSuitSnap ? <h2>SUIT SNAP</h2> : null}
+            </div>
 
-          {cardsRemaining ? (
-            <button onClick={cardDrawHandler}>Draw card</button>
-          ) : (
-            <button onClick={reset}>Reset</button>
-          )}
+            <CardsContainer status={cardStatus} cards={cards} />
+
+            <div className="button-result-container">
+              {cardsRemaining ? (
+                <button className="draw-card-button" onClick={cardDrawHandler}>
+                  Draw card
+                </button>
+              ) : (
+                <div>
+                  <h2>{`VALUE MATCHES: ${valueSnapCount.current}`}</h2>
+                  <h2>{`SUIT MATCHES: ${suitSnapCount.current}`}</h2>
+                  <button className="reset-button" onClick={reset}>
+                    Reset
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
