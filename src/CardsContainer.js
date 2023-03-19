@@ -1,5 +1,6 @@
 import "./CardsContainer.css";
 import Card from "./Card";
+import loadingGif from "./assets/200w.gif";
 
 function CardsContainer({ cards, status }) {
   let leftCard = cards[1]?.cards[0];
@@ -8,7 +9,10 @@ function CardsContainer({ cards, status }) {
   return (
     <div className="card-view">
       {status === "loading" ? (
-        <div>Loading</div>
+        <>
+          <Card className="card" imageRef={""} altText="Loading" />
+          <Card className="card" imageRef={loadingGif} altText="Loading" />
+        </>
       ) : (
         <>
           <Card
