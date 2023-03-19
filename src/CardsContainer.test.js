@@ -3,28 +3,14 @@ import CardsContainer from "./CardsContainer";
 
 const cards = [
   {
-    success: true,
-    deck_id: "qk2sujy1jmge",
-    cards: [
-      {
-        code: "QS",
-        image: "https://deckofcardsapi.com/static/img/QS.png",
-        value: "QUEEN",
-        suit: "SPADES",
-      },
-    ],
+    image: "https://deckofcardsapi.com/static/img/QS.png",
+    value: "QUEEN",
+    suit: "SPADES",
   },
   {
-    success: true,
-    deck_id: "qk2sujy1jmge",
-    cards: [
-      {
-        code: "3D",
-        image: "https://deckofcardsapi.com/static/img/3D.png",
-        value: "3",
-        suit: "DIAMONDS",
-      },
-    ],
+    image: "https://deckofcardsapi.com/static/img/3D.png",
+    value: "3",
+    suit: "DIAMONDS",
   },
 ];
 

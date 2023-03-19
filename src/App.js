@@ -1,6 +1,7 @@
 import "./App.css";
 import CardsContainer from "./CardsContainer";
 import { useState, useEffect } from "react";
+import { calculateSnapOdds } from "./calculateSnapOdds";
 
 function App() {
   const [deckId, setDeckId] = useState();
@@ -9,15 +10,13 @@ function App() {
   const [cardStatus, setCardStatus] = useState("idle");
   const [isReset, setIsReset] = useState(true);
 
-  const isValueSnap =
-    cards[1]?.cards[0]?.value &&
-    cards[1]?.cards[0]?.value === cards[0]?.cards[0]?.value;
+  const isValueSnap = cards[1]?.value && cards[1]?.value === cards[0]?.value;
 
-  const isSuitSnap =
-    cards[1]?.cards[0]?.suit &&
-    cards[1]?.cards[0]?.suit === cards[0]?.cards[0]?.suit;
+  const isSuitSnap = cards[1]?.suit && cards[1]?.suit === cards[0]?.suit;
 
   const cardsRemaining = cards[0]?.remaining ?? 52;
+
+  const snapOdds = calculateSnapOdds(cards, cardsRemaining);
 
   useEffect(() => {
     async function fetchDeck() {
@@ -44,7 +43,10 @@ function App() {
     try {
       setCardStatus("loading");
       let cardData = await fetchCard(deckId);
-      setCards([cardData, ...cards]);
+      setCards((prevCards) => [
+        { ...cardData.cards[0], remaining: cardData.remaining },
+        ...prevCards,
+      ]);
       setCardStatus("completed");
     } catch (error) {
       setCardStatus("error");
@@ -68,7 +70,10 @@ function App() {
       ) : (
         <div>
           <div>
-            <span>{`Cards remaining: ${cardsRemaining}`}</span>
+            <p>{`Cards remaining: ${cardsRemaining}`}</p>
+            <p>{`${(snapOdds * 100).toFixed(
+              1
+            )}% chance of a SNAP in the next draw`}</p>
           </div>
           <div className="snap-info">
             {isValueSnap ? <h2>VALUE SNAP</h2> : null}
