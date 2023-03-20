@@ -99,13 +99,20 @@ function App() {
 
             <div className="button-result-container">
               {cardsRemaining ? (
-                <button className="draw-card-button" onClick={cardDrawHandler}>
-                  Draw card
-                </button>
+                <div className="draw-card-container">
+                  <button
+                    className="draw-card-button"
+                    onClick={cardDrawHandler}
+                  >
+                    Draw card
+                  </button>
+                </div>
               ) : (
-                <div>
-                  <h2>{`VALUE MATCHES: ${valueSnapCount.current}`}</h2>
-                  <h2>{`SUIT MATCHES: ${suitSnapCount.current}`}</h2>
+                <div className="result-info">
+                  <div>
+                    <h2>{`VALUE MATCHES: ${valueSnapCount.current}`}</h2>
+                    <h2>{`SUIT MATCHES: ${suitSnapCount.current}`}</h2>
+                  </div>
                   <button className="reset-button" onClick={reset}>
                     Reset
                   </button>

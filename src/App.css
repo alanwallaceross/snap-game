@@ -7,11 +7,15 @@
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+}
+
+p {
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
 }
 
 .top-bar {
@@ -22,7 +26,7 @@ h2 {
 }
 
 .game-details {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .snap-info {
@@ -33,6 +37,10 @@ h2 {
 }
 
 .button-result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-top: 50px;
   max-width: 400px;
   margin-left: auto;
@@ -41,26 +49,29 @@ h2 {
   padding-right: 16px;
 }
 
-.draw-card-button {
-  width: 200px;
-  margin-left: 80px;
+.draw-card-container {
+  height: 60px;
+}
+
+.result-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60px;
+}
+
+.draw-card-button,
+.reset-button {
+  width: clamp(120px, 30vw, 200px);
+  height: clamp(50px, 15vh, 80px);
+  font-size: clamp(1rem, 3vw, 1.5rem);
   cursor: pointer;
-  height: 80px;
   background-color: rgb(0, 140, 255);
   color: white;
   border-radius: 20px;
-  font-size: 1.5rem;
   font-weight: 300;
 }
 
 .reset-button {
-  width: 200px;
-  margin-left: 80px;
-  cursor: pointer;
-  height: 80px;
   background-color: rgb(230, 35, 29);
-  color: white;
-  border-radius: 20px;
-  font-size: 1.5rem;
-  font-weight: 300;
 }
