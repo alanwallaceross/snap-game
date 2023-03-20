@@ -86,9 +86,9 @@ function App() {
           <div className="max-width-wrapper">
             <div className="game-details">
               <p>{`Cards remaining: ${cardsRemaining}`}</p>
-              <p>{`${(snapOdds * 100).toFixed(
-                1
-              )}% chance of a SNAP in the next draw`}</p>
+              <p>{`Chance of a SNAP in the next draw: ${(
+                snapOdds * 100
+              ).toFixed(1)}% `}</p>
             </div>
             <div className="snap-info">
               {isValueSnap ? <h2>VALUE SNAP</h2> : null}
