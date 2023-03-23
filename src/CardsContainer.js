@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"; // ES6
 import "./CardsContainer.css";
 import Card from "./Card";
 import loadingGif from "./assets/200w.gif";
@@ -30,5 +31,10 @@ function CardsContainer({ cards, status }) {
     </div>
   );
 }
+
+CardsContainer.propTypes = {
+  cards: PropTypes.array,
+  status: PropTypes.string,
+};
 
 export default CardsContainer;

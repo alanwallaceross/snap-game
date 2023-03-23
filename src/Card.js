@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./Card.css";
 
 function Card({ imageRef, altText }) {
@@ -9,3 +10,8 @@ function Card({ imageRef, altText }) {
 }
 
 export default Card;
+
+Card.propTypes = {
+  imageRef: PropTypes.string,
+  altText: PropTypes.string,
+};
