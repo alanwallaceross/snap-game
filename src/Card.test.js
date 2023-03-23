@@ -9,7 +9,7 @@ const cardData = {
 describe("CardsContainer.js", () => {
   test("renders two cards", () => {
     render(<Card imageRef={cardData.imageRef} altText={cardData.altText} />);
-    let card = screen.getByRole("img", { name: "3 of DIAMONDS" });
+    const card = screen.getByRole("img", { name: "3 of DIAMONDS" });
     expect(card).toBeVisible();
   });
 });

@@ -17,7 +17,7 @@ describe("App.js", () => {
   test("draws two DIAMOND cards and renders them as well as SNAP SUIT", async () => {
     render(<App />);
 
-    let button = await screen.findByText(/draw card/i);
+    const button = await screen.findByText(/draw card/i);
 
     server.use(
       rest.get(
@@ -47,7 +47,7 @@ describe("App.js", () => {
     );
 
     fireEvent.click(button);
-    let card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
+    const card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
     expect(card1).toBeVisible();
 
     server.use(
@@ -91,7 +91,7 @@ describe("App.js", () => {
   test("draws two cards of equal value and renders them as well as SNAP VALUE", async () => {
     render(<App />);
 
-    let button = await screen.findByText(/draw card/i);
+    const button = await screen.findByText(/draw card/i);
 
     server.use(
       rest.get(
@@ -121,7 +121,7 @@ describe("App.js", () => {
     );
 
     fireEvent.click(button);
-    let card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
+    const card1 = await screen.findByRole("img", { name: "4 of DIAMONDS" });
     expect(card1).toBeVisible();
 
     server.use(
@@ -154,7 +154,7 @@ describe("App.js", () => {
     expect(valueSnap).toBeNull();
     fireEvent.click(button);
 
-    let card2 = await screen.findByRole("img", { name: "4 of CLUBS" });
+    const card2 = await screen.findByRole("img", { name: "4 of CLUBS" });
     valueSnap = await screen.findByText(/value snap/i);
     expect(card2).toBeVisible();
     expect(valueSnap).toBeVisible();
@@ -163,7 +163,7 @@ describe("App.js", () => {
   test("allows game to be reset", async () => {
     render(<App />);
 
-    let button = await screen.findByText(/draw card/i);
+    const button = await screen.findByText(/draw card/i);
 
     server.use(
       rest.get(
@@ -228,7 +228,7 @@ describe("App.js", () => {
     let card2 = await screen.findByRole("img", { name: "4 of CLUBS" });
     expect(card2).toBeVisible();
 
-    let resetButton = screen.getByText(/reset/i);
+    const resetButton = screen.getByText(/reset/i);
     // I would also test that VALUE MATCHES: 1 is visible however
     // refs don't seem to be working nicely inside the tests as the value remains at 0
     fireEvent.click(resetButton);
@@ -264,7 +264,7 @@ describe("App.js", () => {
       )
     );
 
-    let drawCardButton2 = await screen.findByText(/draw card/i);
+    const drawCardButton2 = await screen.findByText(/draw card/i);
     expect(drawCardButton2).toBeVisible();
     fireEvent.click(drawCardButton2);
 

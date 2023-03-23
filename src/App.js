@@ -24,7 +24,7 @@ function App() {
     async function fetchDeck() {
       try {
         setDeckStatus("loading");
-        let deckResponse = await fetch(
+        const deckResponse = await fetch(
           "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
         );
         const json = await deckResponse.json();
@@ -56,7 +56,7 @@ function App() {
   async function cardDrawHandler() {
     try {
       setCardStatus("loading");
-      let cardData = await fetchCard(deckId);
+      const cardData = await fetchCard(deckId);
       setCards((prevCards) => [
         { ...cardData.cards[0], remaining: cardData.remaining },
         ...prevCards,
@@ -127,7 +127,7 @@ function App() {
 }
 
 async function fetchCard(deckId) {
-  let cardResponse = await fetch(
+  const cardResponse = await fetch(
     `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
   );
 

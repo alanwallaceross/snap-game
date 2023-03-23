@@ -3,8 +3,8 @@ import Card from "./Card";
 import loadingGif from "./assets/200w.gif";
 
 function CardsContainer({ cards, status }) {
-  let leftCard = cards[1];
-  let rightCard = cards[0];
+  const leftCard = cards[1];
+  const rightCard = cards[0];
 
   return (
     <div className="card-view">

@@ -17,8 +17,8 @@ const cards = [
 describe("CardsContainer.js", () => {
   test("renders two cards", () => {
     render(<CardsContainer cards={cards} />);
-    let card1 = screen.getByRole("img", { name: "3 of DIAMONDS" });
-    let card2 = screen.getByRole("img", { name: "QUEEN of SPADES" });
+    const card1 = screen.getByRole("img", { name: "3 of DIAMONDS" });
+    const card2 = screen.getByRole("img", { name: "QUEEN of SPADES" });
     expect(card1).toBeVisible();
     expect(card2).toBeVisible();
   });

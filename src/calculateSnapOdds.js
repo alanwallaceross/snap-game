@@ -1,6 +1,6 @@
 export const calculateSnapOdds = (cards, cardsRemaining) => {
-  let valueCount = {};
-  let suitCount = {};
+  const valueCount = {};
+  const suitCount = {};
 
   if (cards.length === 0 || cardsRemaining === 0) {
     return 0;
@@ -11,11 +11,11 @@ export const calculateSnapOdds = (cards, cardsRemaining) => {
     suitCount[card.suit] = (suitCount[card.suit] || 0) + 1;
   }
 
-  let lastCard = cards[0];
-  let remainingValueCards = 4 - valueCount[lastCard.value];
-  let remainingSuitCards = 13 - suitCount[lastCard.suit];
+  const lastCard = cards[0];
+  const remainingValueCards = 4 - valueCount[lastCard.value];
+  const remainingSuitCards = 13 - suitCount[lastCard.suit];
 
-  let totalSnapOdds =
+  const totalSnapOdds =
     (remainingValueCards + remainingSuitCards) / cardsRemaining;
 
   return totalSnapOdds;
