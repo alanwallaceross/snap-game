@@ -6,7 +6,7 @@ const updateCount = (acc, key, value) => ({
 const countBy = (key, list) =>
   list.reduce((acc, item) => updateCount(acc, item[key], 1), {});
 
-export const calculateSnapOdds = (cards, cardsRemaining) => {
+const calculateSnapOdds = (cards, cardsRemaining) => {
   if (cards.length === 0 || cardsRemaining === 0) {
     return 0;
   }
@@ -19,3 +19,5 @@ export const calculateSnapOdds = (cards, cardsRemaining) => {
 
   return (remainingValueCards + remainingSuitCards) / cardsRemaining;
 };
+
+export default calculateSnapOdds;

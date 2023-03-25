@@ -1,4 +1,4 @@
-import { calculateSnapOdds } from "./calculateSnapOdds";
+import calculateSnapOdds from "./calculateSnapOdds";
 
 describe("calculateSnapOdds", () => {
   test("should return 0 when there are no cards left in the deck", () => {
