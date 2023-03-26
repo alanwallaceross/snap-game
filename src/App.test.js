@@ -2,6 +2,24 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
 import { rest } from "msw";
 import { server } from "./mocks/server";
+import { cleanup } from "@testing-library/react";
+
+// Establish API mocking before all tests.
+beforeAll(() => {
+  delete window.location;
+  window.location = new URL("http://localhost");
+  server.listen();
+});
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+afterEach(() => {
+  cleanup();
+  server.resetHandlers();
+});
+// Clean up after the tests are finished.
+afterAll(() => {
+  server.close();
+});
 
 describe("App.js", () => {
   test("renders 'Snap!' header", async () => {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import calculateSnapOdds from "../calculateSnapOdds";
+import { createDeck, drawCard as drawCardApi } from "../api";
 
 export default function useDeck() {
   const [deckId, setDeckId] = useState();
@@ -19,11 +20,8 @@ export default function useDeck() {
     async function fetchDeck() {
       try {
         setDeckStatus("loading");
-        const deckResponse = await fetch(
-          "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
-        );
-        const json = await deckResponse.json();
-        setDeckId(json.deck_id);
+        const newDeck = await createDeck();
+        setDeckId(newDeck.deck_id);
         setDeckStatus("completed");
       } catch (error) {
         setDeckStatus("error");
@@ -51,9 +49,9 @@ export default function useDeck() {
   async function drawCard() {
     try {
       setCardStatus("loading");
-      const cardData = await fetchCard(deckId);
+      const drawnCard = await drawCardApi(deckId);
       setCards((prevCards) => [
-        { ...cardData.cards[0], remaining: cardData.remaining },
+        { ...drawnCard.cards[0], remaining: drawnCard.remaining },
         ...prevCards,
       ]);
       setCardStatus("completed");
@@ -82,14 +80,4 @@ export default function useDeck() {
     drawCard,
     reset,
   };
-}
-
-async function fetchCard(deckId) {
-  const cardResponse = await fetch(
-    `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-  );
-
-  const json = await cardResponse.json();
-
-  return json;
 }
