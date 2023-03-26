@@ -1,5 +1,9 @@
 import "./App.css";
-import CardsContainer from "./CardsContainer";
+import CardsContainer from "./components/CardsContainer";
+import GameDetails from "./components/GameDetails";
+import SnapInfo from "./components/SnapInfo";
+import DrawCard from "./components/DrawCard";
+import GameResult from "./components/GameResult";
 import useDeck from "./hooks/useDeck";
 
 function App() {
@@ -27,36 +31,19 @@ function App() {
       ) : (
         <div>
           <div className="max-width-wrapper">
-            <div className="game-details">
-              <p>{`Cards remaining: ${cardsRemaining}`}</p>
-              <p>{`Chance of a SNAP in the next draw: ${(
-                snapOdds * 100
-              ).toFixed(1)}% `}</p>
-            </div>
-            <div className="snap-info">
-              {isValueSnap ? <h2>VALUE SNAP</h2> : null}
-              {isSuitSnap ? <h2>SUIT SNAP</h2> : null}
-            </div>
-
+            <GameDetails cardsRemaining={cardsRemaining} snapOdds={snapOdds} />
+            <SnapInfo isValueSnap={isValueSnap} isSuitSnap={isSuitSnap} />
             <CardsContainer status={cardStatus} cards={cards} />
 
             <div className="button-result-container">
               {cardsRemaining ? (
-                <div className="draw-card-container">
-                  <button className="draw-card-button" onClick={drawCard}>
-                    Draw card
-                  </button>
-                </div>
+                <DrawCard onDrawCard={drawCard} />
               ) : (
-                <div className="result-info">
-                  <div>
-                    <h2>{`VALUE MATCHES: ${valueSnapCount.current}`}</h2>
-                    <h2>{`SUIT MATCHES: ${suitSnapCount.current}`}</h2>
-                  </div>
-                  <button className="reset-button" onClick={reset}>
-                    Reset
-                  </button>
-                </div>
+                <GameResult
+                  valueSnapCount={valueSnapCount}
+                  suitSnapCount={suitSnapCount}
+                  onReset={reset}
+                />
               )}
             </div>
           </div>
@@ -64,16 +51,6 @@ function App() {
       )}
     </div>
   );
-}
-
-async function fetchCard(deckId) {
-  const cardResponse = await fetch(
-    `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-  );
-
-  const json = cardResponse.json();
-
-  return json;
 }
 
 export default App;

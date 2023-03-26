@@ -1,0 +1,19 @@
+.snap-info {
+  height: 50px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.snap-info h2 {
+  animation: fadeIn 0.8s ease-out;
+}

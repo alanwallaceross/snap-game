@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import "./Card.css";
+import "./styles/Card.css";
 
 function Card({ imageRef, altText }) {
   return (

@@ -1,7 +1,7 @@
-import PropTypes from "prop-types"; // ES6
-import "./CardsContainer.css";
+import PropTypes from "prop-types";
+import "./styles/CardsContainer.css";
 import Card from "./Card";
-import loadingGif from "./assets/200w.gif";
+import loadingGif from "../assets/200w.gif";
 
 function CardsContainer({ cards, status }) {
   const leftCard = cards[1];
